@@ -1,2 +1,3 @@
-package com.cookiebros.libmvc.util;public class PersonValidator {
+package com.cookiebros.libmvc.util;
+public class PersonValidator {
 }

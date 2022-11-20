@@ -1,2 +1,3 @@
-package com.cookiebros.libmvc.models;public class Person {
+package com.cookiebros.libmvc.models;
+public class Person {
 }

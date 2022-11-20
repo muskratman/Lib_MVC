@@ -1,2 +1,3 @@
-package com.cookiebros.libmvc.dao;public class PersonDAO {
+package com.cookiebros.libmvc.dao;
+public class PersonDAO {
 }

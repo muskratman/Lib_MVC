@@ -1,2 +1,3 @@
-package com.cookiebros.libmvc.config;public class SpringConfig {
+package com.cookiebros.libmvc.config;
+public class SpringConfig {
 }

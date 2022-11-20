@@ -1,2 +1,3 @@
-package com.cookiebros.libmvc.controllers;public class PeopleController {
+package com.cookiebros.libmvc.controllers;
+public class PeopleController {
 }
