@@ -2,9 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Страница книг</title>
 </head>
 <body>
+
+<div th:each="book : ${books}">
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
+       th:text="${book.getTitle()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYearOfPublishing()}">someBook</a>
+</div>
+
+<br>
+<hr>
+<input type="button" value="Добавить книгу" onclick="location.href='/books/new';"/>
 
 </body>
 </html>

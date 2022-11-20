@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Страница читателя</title>
+    <title>Страница читателей</title>
 </head>
 <body>
 
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
-       th:text="${person.getFio()} + ', ' + ${person.getYearOfBirth()}">someUser</a>
+       th:text="'id#' + ${person.getId()} + '/ ' + ${person.getFio()} + ', ' + ${person.getYearOfBirth()}">someUser</a>
 </div>
 
 <br>
 <hr>
-<input type="button" value="Create new Person" onclick="location.href='/people/new';"/>
+<input type="button" value="Добавить читателя" onclick="location.href='/people/new';"/>
 
 </body>
 </html>
