@@ -2,9 +2,80 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Страница книги</title>
 </head>
 <body>
 
+<div>
+    <table>
+        <tr>
+            <th>id</th>
+            <td><a th:text="${book.getId()}">ID</a></td>
+        </tr>
+        <tr>
+            <th>Название книги</th>
+            <td><a th:text="${book.getTitle()}">НАЗВАНИЕ КНИГИ</a></td>
+        </tr>
+        <tr>
+            <th>Автор</th>
+            <td><a th:text="${book.getAuthor()}">НАЗВАНИЕ КНИГИ</a></td>
+        </tr>
+        <tr>
+            <th>Год издания</th>
+            <td><a th:text="${book.getYearOfPublishing()}">ГОД РОЖДЕНИЯ</a></td>
+        </tr>
+    </table>
+</div>
+
+
+<!--
+<form>
+th:if
+Эта книга сейчас свободна
+<input "Назначить книгу"
+
+Эта книга сейчас у: Ааа Ааа Ааа
+<input "Освободить книгу"
+
+</form>
+-->
+<br>
+    <div>
+        <a th:if="${book.getPersonId()} == 1">Эта книга сейчас свободна</a>
+        <a th:if="${book.getPersonId()} != 1">Эта книга сейчас у </a>
+        <a th:if="${book.getPersonId()} != 1" th:text="${owner.getFio()}" th:href="@{/people/{id}(id=${owner.getId()})}"></a>
+    </div>
+<br>
+<a>Назначить книгу / освободить книгу</a>
+<form th:method="POST" th:action="@{/books/{id}/add_owner(id=${book.getId()})}">
+        <br>
+        <select th:object="${person}" th:field="*{id}">
+            <option th:each="person : ${people}" th:value="${person.getId()}"
+            th:text="${person.getFio()} + '   id=' + ${person.getId()}">
+            </option>
+        </select>
+        <input type="submit" value="Назначить книгу этому читателю"/>
+</form>
+<form th:method="POST" th:action="@{/books/{id}/release(id=${book.getId()})}" th:if="${book.getPersonId()} != 1">
+    <input type="submit" value="Освободить эту книгу">
+</form>
+
+
+
+<br>
+<button>
+    <a th:href="@{'/books/' + ${book.getId()} + '/edit'}" class="button">Редактировать эту книгу</a>
+</button>
+
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Удалить эту книгу">
+</form>
+
+<br>
+<hr>
+<input type="button" value="Все книги" onclick="location.href='/books';"/>
+
+<br>
+<br>
 </body>
 </html>

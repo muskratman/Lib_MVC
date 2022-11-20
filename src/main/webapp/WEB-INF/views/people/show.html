@@ -23,6 +23,18 @@
     </table>
 </div>
 
+<hr>
+<p>
+    <a th:if="${readersBooks.isEmpty()}" th:text="'У этого читателя нет книг'"></a>
+    <a th:unless="${readersBooks.isEmpty()}" th:text="'У этого читателя: '"></a>
+</p>
+
+<!--<div th:each="book : ${readersBooks}" th:unless="${readersBooks.isEmpty()}">-->
+<div th:each="book : ${readersBooks}">
+    <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getTitle()}">someBook</a>
+</div>
+<hr>
+
 <br>
 <button>
     <a th:href="@{'/people/' + ${person.getId()} + '/edit'}" class="button">Edit Person</a>
@@ -34,7 +46,7 @@
 
 <br>
 <hr>
-<input type="button" value="All People" onclick="location.href='/people';"/>
+<input type="button" value="Все читатели" onclick="location.href='/people';"/>
 
 <br>
 <br>
