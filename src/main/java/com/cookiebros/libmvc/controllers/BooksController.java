@@ -19,7 +19,7 @@ import java.util.List;
 public class BooksController {
     private final BookDAO bookDAO;
     private final BookValidator bookValidator;
-    private PersonDAO personDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
     public BooksController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
@@ -27,8 +27,6 @@ public class BooksController {
         this.bookValidator = bookValidator;
         this.personDAO = personDAO;
     }
-
-
 
     @GetMapping()
     public String index(Model model){
@@ -40,7 +38,11 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         Book thisBook = bookDAO.show(id);
         model.addAttribute("book", thisBook);
-        model.addAttribute("owner", personDAO.show(thisBook.getOwner().getId()));
+        if (thisBook.getOwner() != null) {
+            model.addAttribute("owner", personDAO.show(thisBook.getOwner().getId()));
+        } else {
+            model.addAttribute("owner", null);
+        }
         model.addAttribute("people", personDAO.index());
         return "books/show";
     }

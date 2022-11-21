@@ -21,7 +21,7 @@ public class PeopleController {
 
     private final PersonDAO personDAO;
     private final PersonValidator personValidator;
-    private BookDAO bookDAO;
+    private final BookDAO bookDAO;
 
     @Autowired
     public PeopleController(PersonDAO personDAO, PersonValidator personValidator, BookDAO bookDAO) {
@@ -29,7 +29,6 @@ public class PeopleController {
         this.personValidator = personValidator;
         this.bookDAO = bookDAO;
     }
-
 
     @GetMapping()
     public String index(Model model){

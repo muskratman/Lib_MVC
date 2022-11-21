@@ -47,6 +47,7 @@ public class PersonDAO {
         session.persist(savedPerson);
     }
 
+    @Transactional
     public void update(int id, Person updatedPerson) {
         Session session = sessionFactory.getCurrentSession();
         Person person = session.get(Person.class, id);
@@ -54,6 +55,7 @@ public class PersonDAO {
         person.setYearOfBirth(updatedPerson.getYearOfBirth());
     }
 
+    @Transactional
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
         Person owner = session.get(Person.class, id);

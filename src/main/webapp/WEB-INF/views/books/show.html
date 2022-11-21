@@ -29,9 +29,9 @@
 
 <br>
 <div>
-    <a th:if="${book.getPersonId()} == 1">Эта книга сейчас свободна</a>
-    <a th:if="${book.getPersonId()} != 1">Эта книга сейчас у </a>
-    <a th:if="${book.getPersonId()} != 1" th:text="${owner.getFio()}" th:href="@{/people/{id}(id=${owner.getId()})}"></a>
+    <a th:if="${owner} == null">Эта книга сейчас свободна</a>
+    <a th:if="${owner} != null">Эта книга сейчас у </a>
+    <a th:if="${owner} != null" th:text="${owner.getFio()}" th:href="@{/people/{id}(id=${owner.getId()})}"></a>
 </div>
 <br>
 <a>Назначить книгу / освободить книгу</a>
@@ -44,7 +44,7 @@
     </select>
     <input type="submit" value="Назначить книгу этому читателю"/>
 </form>
-<form th:method="POST" th:action="@{/books/{id}/release(id=${book.getId()})}" th:if="${book.getPersonId()} != 1">
+<form th:method="POST" th:action="@{/books/{id}/release(id=${book.getId()})}" th:if="${owner} != null">
     <input type="submit" value="Освободить эту книгу">
 </form>
 

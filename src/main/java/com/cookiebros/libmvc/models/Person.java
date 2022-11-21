@@ -1,18 +1,14 @@
 package com.cookiebros.libmvc.models;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
 @Table(name = "Person")
 public class Person {
     @Id
-    @Column(name = "name")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "fio")
@@ -25,8 +21,7 @@ public class Person {
 
     public Person () {}
 
-    public Person(int id, String fio, int yearOfBirth) {
-        this.id = id;
+    public Person(String fio, int yearOfBirth) {
         this.fio = fio;
         this.yearOfBirth = yearOfBirth;
     }
