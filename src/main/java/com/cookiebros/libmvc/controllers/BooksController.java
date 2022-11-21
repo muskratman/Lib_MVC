@@ -40,7 +40,7 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         Book thisBook = bookDAO.show(id);
         model.addAttribute("book", thisBook);
-        model.addAttribute("owner", personDAO.show(thisBook.getPersonId()));
+        model.addAttribute("owner", personDAO.show(thisBook.getOwner().getId()));
         model.addAttribute("people", personDAO.index());
         return "books/show";
     }
@@ -87,7 +87,7 @@ public class BooksController {
 
     @PostMapping("/{id}/release")
     public String releaseBook(@PathVariable("id") int id) {
-        bookDAO.addOwner(id, 1);
+        bookDAO.removeOwner(id);
         return "redirect:/books/" + id;
     }
 

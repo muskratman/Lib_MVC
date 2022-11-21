@@ -1,20 +1,31 @@
 package com.cookiebros.libmvc.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Book")
 public class Book {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "title")
     private String title;
+    @Column(name = "author")
     private String author;
+    @Column(name = "year_of_publishing")
     private int yearOfPublishing;
-    private int personId;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
     public Book() {}
 
-    public Book(int id, String title, String author, int yearOfPublishing, int personId) {
-        this.id = id;
+    public Book(String title, String author, int yearOfPublishing) {
         this.title = title;
         this.author = author;
         this.yearOfPublishing = yearOfPublishing;
-        this.personId = personId;
     }
 
     public int getId() {
@@ -41,18 +52,21 @@ public class Book {
     public void setYearOfPublishing(int yearOfPublishing) {
         this.yearOfPublishing = yearOfPublishing;
     }
-    public int getPersonId() {
-        return personId;
+
+    public Person getOwner() {
+        return owner;
     }
-    public void setPersonId(int personId) {
-        this.personId = personId;
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
+
     @Override
     public String toString() {
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", personId=" + personId +
+                ", personId=" + owner.getId() +
                 '}';
     }
 }

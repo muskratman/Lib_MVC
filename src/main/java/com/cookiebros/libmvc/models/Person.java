@@ -1,9 +1,28 @@
 package com.cookiebros.libmvc.models;
 
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+@Entity
+@Table(name = "Person")
 public class Person {
+    @Id
+    @Column(name = "name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "fio")
     private String fio;
+    @Column(name = "year_of_birth")
     private int yearOfBirth;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
     public Person () {}
 
     public Person(int id, String fio, int yearOfBirth) {
@@ -28,6 +47,24 @@ public class Person {
     }
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public void addBook(Book book) {
+        if (getBooks().isEmpty())
+            setBooks(new ArrayList<>());
+        books.add(book);
+    }
+
+    public void removeBook(int bookId) {
+        books.removeIf(b -> b.getId() == bookId);
     }
 
     @Override
