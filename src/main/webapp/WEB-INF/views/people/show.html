@@ -29,8 +29,7 @@
     <a th:unless="${readersBooks.isEmpty()}" th:text="'У этого читателя: '"></a>
 </p>
 
-<!--<div th:each="book : ${readersBooks}" th:unless="${readersBooks.isEmpty()}">-->
-<div th:each="book : ${readersBooks}">
+<div th:each="book : ${readersBooks}" th:if="!${readersBooks.isEmpty()}">
     <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getTitle()}">someBook</a>
 </div>
 <hr>

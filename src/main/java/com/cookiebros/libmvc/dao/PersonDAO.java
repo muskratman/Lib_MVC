@@ -59,12 +59,8 @@ public class PersonDAO {
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
         Person owner = session.get(Person.class, id);
-        if (!owner.getBooks().isEmpty()) {
-            for (Book book : owner.getBooks()) {
-                book.setOwner(null);
-            }
-        }
-        session.remove(session.get(Person.class, id));
+        owner.getBooks().forEach(i -> i.setOwner(null));
+        session.remove(owner);
     }
 
 }

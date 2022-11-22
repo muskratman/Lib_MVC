@@ -2,6 +2,7 @@ package com.cookiebros.libmvc.dao;
 
 import com.cookiebros.libmvc.models.Book;
 import com.cookiebros.libmvc.models.Person;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class BookDAO {
         Book book = session.get(Book.class, id);
         Person owner = book.getOwner();
         if (owner != null)
-            owner.removeBook(id);
+            owner.getBooks().remove(book);
         session.remove(session.get(Book.class, id));
     }
 
@@ -88,14 +89,14 @@ public class BookDAO {
         Book book = session.get(Book.class, id);
         Person person = session.get(Person.class, book.getOwner().getId());
         book.setOwner(null);
-        person.removeBook(id);
+        person.getBooks().remove(book);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Book> showReadersBooks(int readerId) {
+    public List<Book> showReadersBooks(int readerId) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("FROM Book WHERE person_id=:personIdParam", Book.class).
-                setParameter("personIdParam", readerId).
-                stream().findAny();
+        Person person = session.get(Person.class, readerId);
+        Hibernate.initialize(person.getBooks());
+        return person.getBooks();
     }
 }

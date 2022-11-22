@@ -58,10 +58,6 @@ public class Person {
         books.add(book);
     }
 
-    public void removeBook(int bookId) {
-        books.removeIf(b -> b.getId() == bookId);
-    }
-
     @Override
     public String toString() {
         return "Person{" +
