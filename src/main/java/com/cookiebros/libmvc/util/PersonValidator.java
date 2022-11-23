@@ -1,7 +1,7 @@
 package com.cookiebros.libmvc.util;
 
-import com.cookiebros.libmvc.dao.PersonDAO;
 import com.cookiebros.libmvc.models.Person;
+import com.cookiebros.libmvc.services.PeopleService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,11 +10,10 @@ import java.util.regex.Pattern;
 
 @Component
 public class PersonValidator implements Validator {
+    private final PeopleService peopleService;
 
-    private final PersonDAO personDAO;
-
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
 
@@ -37,13 +36,18 @@ public class PersonValidator implements Validator {
             errors.rejectValue("fio", "", "FIO should be between 2 and 30 characters");
         } else if (!Pattern.compile(fioPattern).matcher(person.getFio()).matches()) {
             errors.rejectValue("fio", "", "Invalid characters in FIO");
-            //проверка на уникальность FIO в БД
-        } else if(personDAO.show(person.getFio()).isPresent()) {
-            errors.rejectValue("fio", "", "This FIO is already taken");
         }
 
         //YearOfBirth
         if (person.getYearOfBirth() < 1900 || person.getYearOfBirth() > 2022)
             errors.rejectValue("yearOfBirth", "", "yearOfBirth should be greater then 1900");
+
+
+        //проверка на уникальность FIO в БД
+        Person foundPerson = peopleService.findByFio(person.getFio());
+
+        if (foundPerson != null && foundPerson.getId() != person.getId()) {
+            errors.rejectValue("fio", "", "This FIO is already taken");
+        }
     }
 }
