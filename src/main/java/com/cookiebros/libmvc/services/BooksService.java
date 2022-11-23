@@ -30,6 +30,10 @@ public class BooksService {
         return booksRepository.findById(id).orElse(null);
     }
 
+    public List<Book> findByOwner(Person owner) {
+        return booksRepository.findByOwner(owner);
+    }
+
     public Optional<Book> findOne(String title, String author, int yearOfPublishing) {
         return booksRepository.findByTitleAndAuthorAndYearOfPublishing(title, author, yearOfPublishing);
     }

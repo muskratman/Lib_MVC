@@ -2,21 +2,25 @@ package com.cookiebros.libmvc.services;
 
 import com.cookiebros.libmvc.models.Book;
 import com.cookiebros.libmvc.models.Person;
+import com.cookiebros.libmvc.repositories.BooksRepository;
 import com.cookiebros.libmvc.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
 public class PeopleService {
     private final PeopleRepository peopleRepository;
+    private final BooksRepository booksRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository) {
+    public PeopleService(PeopleRepository peopleRepository, BooksRepository booksRepository) {
         this.peopleRepository = peopleRepository;
+        this.booksRepository = booksRepository;
     }
 
     public List<Person> findAll() {
@@ -49,7 +53,6 @@ public class PeopleService {
 
     public List<Book> showReaderBooks(int id) {
         Person person = peopleRepository.findById(id).orElse(null);
-        List<Book> books = person.getBooks();
-        return books;
+        return (person != null)? booksRepository.findByOwner(person): null;
     }
 }
