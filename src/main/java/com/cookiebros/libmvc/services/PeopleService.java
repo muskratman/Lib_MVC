@@ -4,12 +4,12 @@ import com.cookiebros.libmvc.models.Book;
 import com.cookiebros.libmvc.models.Person;
 import com.cookiebros.libmvc.repositories.BooksRepository;
 import com.cookiebros.libmvc.repositories.PeopleRepository;
+import org.postgresql.gss.GSSOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -51,8 +51,27 @@ public class PeopleService {
         peopleRepository.deleteById(id);
     }
 
-    public List<Book> showReaderBooks(int id) {
+
+
+
+
+//    public List<Book> showReaderBooks(int id) {
+//        Person person = peopleRepository.findById(id).orElse(null);
+//        return (person != null)? booksRepository.findByOwner(person): null;
+//    }
+
+    public Map<Book, Boolean> showReaderBooks(int id) {
+        Map<Book, Boolean> booksMap = new LinkedHashMap<>();
+        Date currentDate = new Date();
+        long millis;
+
         Person person = peopleRepository.findById(id).orElse(null);
-        return (person != null)? booksRepository.findByOwner(person): null;
+
+        for (Book book : booksRepository.findByOwner(person)) {
+            millis = currentDate.getTime() - book.getOwningDate().getTime();
+            booksMap.put(book, (millis > (10 * 24 * 60 * 60 * 1000)));
+        }
+
+        return booksMap;
     }
 }

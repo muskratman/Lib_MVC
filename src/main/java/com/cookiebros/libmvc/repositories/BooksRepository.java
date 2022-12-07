@@ -15,4 +15,6 @@ public interface BooksRepository extends JpaRepository<Book, Integer> {
     Optional<Book> findByTitleAndAuthorAndYearOfPublishing(String title, String author, int yearOfPublishing);
 
     List<Book> findByOwner(Person owner);
+
+    List<Book> findByTitleStartingWithIgnoreCase(String query);
 }

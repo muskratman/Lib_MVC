@@ -4,11 +4,14 @@ import com.cookiebros.libmvc.models.Book;
 import com.cookiebros.libmvc.models.Person;
 import com.cookiebros.libmvc.repositories.BooksRepository;
 import com.cookiebros.libmvc.repositories.PeopleRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,7 +25,19 @@ public class BooksService {
         this.peopleRepository = peopleRepository;
     }
 
-    public List<Book> findAll() {
+
+    public List<Book> findAll(Integer pageNumber, Integer pageCount, Boolean sortByYear) {
+
+        if (pageNumber != null && pageCount != null && sortByYear == null) {
+            return booksRepository.findAll(PageRequest.of(pageNumber, pageCount)).getContent();
+        } else if (pageNumber == null && pageCount == null && (sortByYear != null && sortByYear)) {
+            return booksRepository.findAll(Sort.by("yearOfPublishing"));
+        } else if (pageNumber != null && pageCount != null && sortByYear) {
+            return booksRepository.findAll(
+                                    PageRequest.of(pageNumber, pageCount,
+                                    Sort.by("yearOfPublishing")))
+                                    .getContent();
+        }
         return booksRepository.findAll();
     }
 
@@ -37,6 +52,15 @@ public class BooksService {
     public Optional<Book> findOne(String title, String author, int yearOfPublishing) {
         return booksRepository.findByTitleAndAuthorAndYearOfPublishing(title, author, yearOfPublishing);
     }
+
+    public List<Book> findByTitleStartingWith(String query) {
+        if (query == null || query.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return booksRepository.findByTitleStartingWithIgnoreCase(query);
+        }
+    }
+
 
     @Transactional
     public void save(Book savedBook) {
@@ -55,38 +79,39 @@ public class BooksService {
     }
 
     @Transactional
-    public void addOwner(int id, int personId) {
+    public void addOwner(int id, int readerId) {
         Book book = booksRepository.findById(id).orElse(null);
-        Person person = peopleRepository.findById(personId).orElse(null);
+        Person person = peopleRepository.findById(readerId).orElse(null);
         try {
             book.setOwner(person);
             person.addBook(book);
+            book.setOwningDate(new Date());
         } catch (NullPointerException e) {
-            System.out.println("Книга id=" + id + " или Читатель id=" + personId + "  не найден" );
+            System.out.println("Книга id=" + id + " или Читатель id=" + readerId + "  не найден" );
         }
     }
 
     @Transactional
     public void removeOwner(int id) {
-        Book book = booksRepository.findById(id).orElse(null);
-        try {
-            Person person = book.getOwner();
-            book.setOwner(null);
-            person.getBooks().remove(book);
-        } catch (NullPointerException e) {
-            System.out.println("Книга id=" + id + "  не найдена");
+        Optional<Book> book = booksRepository.findById(id);
+        if (book.isPresent()) {
+            Person reader = book.get().getOwner();
+            reader.getBooks().remove(book);
+            book.get().setOwner(null);
+            book.get().setOwningDate(null);
         }
     }
 
     @Transactional
-    public List<Book> showReaderBooks(int personId) {
-        Person person = peopleRepository.findById(personId).orElse(null);
-        List<Book> books = null;
-        try {
-            books = person.getBooks();
-        } catch (NullPointerException e) {
-            System.out.println("Читатель id=" + personId + "  не найден");
+    public List<Book> getBooksByReaderId(int readerId) {
+        Optional<Person> person = peopleRepository.findById(readerId);
+        if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+            return person.get().getBooks();
+        } else {
+            return Collections.emptyList();
         }
-        return books;
     }
+
+
 }

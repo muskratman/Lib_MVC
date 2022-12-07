@@ -24,13 +24,15 @@
 </div>
 
 <hr>
+
 <p>
     <a th:if="${readersBooks.isEmpty()}" th:text="'У этого читателя нет книг'"></a>
-    <a th:unless="${readersBooks.isEmpty()}" th:text="'У этого читателя: '"></a>
+    <a th:if="!${readersBooks.isEmpty()}" th:text="'У этого читателя: '"></a>
 </p>
 
 <div th:each="book : ${readersBooks}" th:if="!${readersBooks.isEmpty()}">
-    <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getTitle()}">someBook</a>
+    <a th:href="@{/books/{id}(id=${book.key.getId()})}" th:text="${book.key.getTitle()}"
+       th:style ="${book.value} ? 'color: red'">someBook</a>
 </div>
 <hr>
 

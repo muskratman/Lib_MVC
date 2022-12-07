@@ -12,12 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/books")
 public class BooksController {
     private final BooksService booksService;
     private final PeopleService peopleService;
     private final BookValidator bookValidator;
+
+
+    private int queryCounter;
 
     @Autowired
     public BooksController(BooksService booksService, PeopleService peopleService, BookValidator bookValidator) {
@@ -26,9 +32,33 @@ public class BooksController {
         this.bookValidator = bookValidator;
     }
 
+
+
+
+
+
+    @GetMapping("/search")
+    public String result(Model model,
+                         @RequestParam(value = "search_query", required = false) String query) {
+        model.addAttribute("query", query);
+        model.addAttribute("books", booksService.findByTitleStartingWith(query));
+        queryCounter++;
+        System.out.println("Query " + queryCounter);
+        return  "books/search";
+    }
+
+
+
+
+
+
     @GetMapping()
-    public String index(Model model){
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "per_page", required = false) Integer booksPerPage,
+                        @RequestParam(value = "sort", required = false) Boolean sortByYear) {
+
+        model.addAttribute("books", booksService.findAll(page, booksPerPage, sortByYear));
         return "books/index";
     }
 
@@ -38,7 +68,6 @@ public class BooksController {
         model.addAttribute("book", thisBook);
         Person owner = (thisBook.getOwner() != null) ? thisBook.getOwner(): null;
         model.addAttribute("owner", owner);
-//        model.addAttribute("owner", peopleService.findById(thisBook.getOwner().getId()));
         model.addAttribute("people", peopleService.findAll());
         return "books/show";
     }

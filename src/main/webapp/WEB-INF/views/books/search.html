@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница поиска книг</title>
+</head>
+<body>
+
+<a>Введите начальные буквы названия книги</a>
+
+<form th:method="GET" th:action="@{/books/search}">
+    <div>
+        <table>
+            <tr>
+                <th>Поиск книг</th>
+                <td>
+                    <input type="text" name="search_query" id="search-input" th:value="${query}"/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Искать">
+    </div>
+</form>
+
+<a th:if="${books.isEmpty()} and ${query} != null" th:text="'Книг с таким названием не найдено'"></a>
+<a th:if="!${books.isEmpty()}" th:text="'Найденные книги:'"></a>
+
+
+<div th:if="!${books.isEmpty()}" th:each="book : ${books}">
+    <p>
+        <a th:href="@{/books/{id}(id=${book.getId()})}"
+           th:text="${book.getTitle()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYearOfPublishing()}">foundedBook</a>
+    </p>
+    <p>
+        <a th:if="${book.getOwner()}">Книга сейчас у </a>
+        <a th:if="${book.getOwner()}" th:href="@{/people/{id}(id=${book.getOwner().getId()})}"
+           th:text="${book.getOwner().getFio()}">owner</a>
+        <a th:if="!${book.getOwner()}">Книга сейчас свободна</a>
+    </p>
+</div>
+
+</body>
+</html>

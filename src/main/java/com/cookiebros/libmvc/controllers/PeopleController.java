@@ -33,6 +33,7 @@ public class PeopleController {
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findById(id));
         model.addAttribute("readersBooks", peopleService.showReaderBooks(id));
+        System.out.println(peopleService.showReaderBooks(id));
         return "people/show";
     }
 

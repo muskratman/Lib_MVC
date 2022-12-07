@@ -1,6 +1,9 @@
 package com.cookiebros.libmvc.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Book")
@@ -19,6 +22,10 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Column(name = "owning_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date owningDate;
 
     public Book() {}
 
@@ -61,12 +68,19 @@ public class Book {
         this.owner = owner;
     }
 
+    public Date getOwningDate() {
+        return owningDate;
+    }
+
+    public void setOwningDate(Date owningDate) {
+        this.owningDate = owningDate;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", personId=" + owner.getId() +
                 '}';
     }
 }
