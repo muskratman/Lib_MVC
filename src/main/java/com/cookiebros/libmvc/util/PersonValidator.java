@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Component
@@ -44,9 +45,9 @@ public class PersonValidator implements Validator {
 
 
         //проверка на уникальность FIO в БД
-        Person foundPerson = peopleService.findByFio(person.getFio());
+        Optional<Person> foundPerson = peopleService.findByFio(person.getFio());
 
-        if (foundPerson != null && foundPerson.getId() != person.getId()) {
+        if (foundPerson.isPresent() && foundPerson.get().getId() != person.getId()) {
             errors.rejectValue("fio", "", "This FIO is already taken");
         }
     }

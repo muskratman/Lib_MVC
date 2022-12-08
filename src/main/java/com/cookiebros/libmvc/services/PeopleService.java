@@ -4,6 +4,7 @@ import com.cookiebros.libmvc.models.Book;
 import com.cookiebros.libmvc.models.Person;
 import com.cookiebros.libmvc.repositories.BooksRepository;
 import com.cookiebros.libmvc.repositories.PeopleRepository;
+import org.hibernate.Hibernate;
 import org.postgresql.gss.GSSOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class PeopleService {
         return peopleRepository.findById(id).orElse(null);
     }
 
-    public Person findByFio(String fio) {
-        return peopleRepository.findByFio(fio).orElse(null);
+    public Optional<Person> findByFio(String fio) {
+        return peopleRepository.findByFio(fio);
     }
 
     @Transactional
@@ -52,24 +53,19 @@ public class PeopleService {
     }
 
 
-
-
-
-//    public List<Book> showReaderBooks(int id) {
-//        Person person = peopleRepository.findById(id).orElse(null);
-//        return (person != null)? booksRepository.findByOwner(person): null;
-//    }
-
     public Map<Book, Boolean> showReaderBooks(int id) {
         Map<Book, Boolean> booksMap = new LinkedHashMap<>();
         Date currentDate = new Date();
         long millis;
 
-        Person person = peopleRepository.findById(id).orElse(null);
+        Optional<Person> person = peopleRepository.findById(id);
 
-        for (Book book : booksRepository.findByOwner(person)) {
-            millis = currentDate.getTime() - book.getOwningDate().getTime();
-            booksMap.put(book, (millis > (10 * 24 * 60 * 60 * 1000)));
+        if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+            for (Book book : booksRepository.findByOwner(person.get())) {
+                millis = currentDate.getTime() - book.getOwningDate().getTime();
+                booksMap.put(book, (millis > (10 * 24 * 60 * 60 * 1000)));
+            }
         }
 
         return booksMap;

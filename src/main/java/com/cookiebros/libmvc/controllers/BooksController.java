@@ -23,7 +23,7 @@ public class BooksController {
     private final BookValidator bookValidator;
 
 
-    private int queryCounter;
+//    private int queryCounter;
 
     @Autowired
     public BooksController(BooksService booksService, PeopleService peopleService, BookValidator bookValidator) {
@@ -33,23 +33,15 @@ public class BooksController {
     }
 
 
-
-
-
-
     @GetMapping("/search")
-    public String result(Model model,
+    public String search(Model model,
                          @RequestParam(value = "search_query", required = false) String query) {
         model.addAttribute("query", query);
         model.addAttribute("books", booksService.findByTitleStartingWith(query));
-        queryCounter++;
-        System.out.println("Query " + queryCounter);
+//        queryCounter++;
+//        System.out.println("Query " + queryCounter);
         return  "books/search";
     }
-
-
-
-
 
 
     @GetMapping()
