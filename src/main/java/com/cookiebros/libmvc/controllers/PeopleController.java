@@ -1,7 +1,6 @@
 package com.cookiebros.libmvc.controllers;
 
 import com.cookiebros.libmvc.models.Person;
-import com.cookiebros.libmvc.services.BooksService;
 import com.cookiebros.libmvc.services.PeopleService;
 import com.cookiebros.libmvc.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;

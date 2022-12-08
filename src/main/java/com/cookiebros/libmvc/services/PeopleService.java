@@ -5,7 +5,6 @@ import com.cookiebros.libmvc.models.Person;
 import com.cookiebros.libmvc.repositories.BooksRepository;
 import com.cookiebros.libmvc.repositories.PeopleRepository;
 import org.hibernate.Hibernate;
-import org.postgresql.gss.GSSOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
