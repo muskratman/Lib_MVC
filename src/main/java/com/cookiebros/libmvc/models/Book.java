@@ -1,8 +1,7 @@
 package com.cookiebros.libmvc.models;
 
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
 import java.util.Date;
 
 @Entity
