@@ -52,21 +52,21 @@ public class PeopleService {
     }
 
 
-    public Map<Book, Boolean> showReaderBooks(int id) {
-        Map<Book, Boolean> booksMap = new LinkedHashMap<>();
+    public List<Book> showReaderBooks(int personId) {
+        List<Book> books = new ArrayList<>(Collections.emptyList());
+        Optional<Person> person = peopleRepository.findById(personId);
         Date currentDate = new Date();
         long millis;
 
-        Optional<Person> person = peopleRepository.findById(id);
-
         if (person.isPresent()) {
             Hibernate.initialize(person.get().getBooks());
-            for (Book book : booksRepository.findByOwner(person.get())) {
+            books = booksRepository.findByOwner(person.get());
+            for (Book book : books) {
                 millis = currentDate.getTime() - book.getOwningDate().getTime();
-                booksMap.put(book, (millis > (10 * 24 * 60 * 60 * 1000)));
+                book.setOverdue(millis > (10 * 24 * 60 * 60 * 1000)); // 10 дней
             }
         }
 
-        return booksMap;
+        return books;
     }
 }

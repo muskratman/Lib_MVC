@@ -6,6 +6,14 @@
 </head>
 <body>
 
+<!--TODO
+Доступ только Менеджерам и Админам
+Добавить картинку Юзера
+кнопка удаления на основании РОЛЕЙ
+удалить Менеджера или Админа может только Админ
+-->
+
+
 <div>
     <table>
         <tr>
@@ -25,14 +33,17 @@
 
 <hr>
 
+
+
 <p>
-    <a th:if="${readersBooks.isEmpty()}" th:text="'У этого читателя нет книг'"></a>
-    <a th:if="!${readersBooks.isEmpty()}" th:text="'У этого читателя: '"></a>
+    <a th:if="${readersBooks.isEmpty()}" th:text="'У этого пользователя нет книг'"></a>
+    <a th:if="!${readersBooks.isEmpty()}" th:text="'У этого пользователя: '"></a>
 </p>
 
-<div th:each="book : ${readersBooks}" th:if="!${readersBooks.isEmpty()}">
-    <a th:href="@{/books/{id}(id=${book.key.getId()})}" th:text="${book.key.getTitle()}"
-       th:style ="${book.value} ? 'color: red'">someBook</a>
+<div th:if="!${readersBooks.isEmpty()}"
+     th:each="book : ${readersBooks}">
+    <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getTitle()}"
+       th:style ="${book.isOverdue()} ? 'color: red'">someBook</a>
 </div>
 <hr>
 
@@ -40,6 +51,7 @@
 <button>
     <a th:href="@{'/people/' + ${person.getId()} + '/edit'}" class="button">Edit Person</a>
 </button>
+
 
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Delete Person">

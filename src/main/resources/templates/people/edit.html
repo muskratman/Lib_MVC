@@ -6,6 +6,13 @@
 </head>
 <body>
 
+<!--TODO
+Доступ только Менеджерам и Админам
+Добавить картинку Юзера
+Добавить поле изменения РОЛИ
+-->
+
+
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
     <div>
         <table>

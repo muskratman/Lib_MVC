@@ -26,6 +26,10 @@ public class Book {
     @Temporal(TemporalType.TIMESTAMP)
     private Date owningDate;
 
+    //проверка на просрочку возврата книги (10 дней)
+    @Transient
+    private boolean overdue;
+
     public Book() {}
 
     public Book(String title, String author, int yearOfPublishing) {
@@ -73,6 +77,14 @@ public class Book {
 
     public void setOwningDate(Date owningDate) {
         this.owningDate = owningDate;
+    }
+
+    public boolean isOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
     }
 
     @Override

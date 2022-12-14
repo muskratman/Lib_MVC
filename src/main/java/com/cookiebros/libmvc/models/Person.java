@@ -1,12 +1,23 @@
 package com.cookiebros.libmvc.models;
 
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.CodePointLength;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Person")
 public class Person {
+//    TODO
+//    добавить в БД поля email и password
+//
+//    добавить активацию акка по email
+//    https://www.youtube.com/watch?v=yBXs_gtSmUc&ab_channel=letsCode
+
+//    добавить активацию акка через Google
+//    https://www.youtube.com/watch?v=-ohlXEJeRX8&t=630s&ab_channel=letsCode
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +26,12 @@ public class Person {
     private String fio;
     @Column(name = "year_of_birth")
     private int yearOfBirth;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(mappedBy = "owner")
     private List<Book> books;

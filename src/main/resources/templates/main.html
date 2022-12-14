@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Страница поиска книг</title>
+    <title>Главная страница</title>
 </head>
-<body>
 
 <!--TODO
-Добавить картинку книги
+добавить хэдер и лоувер на все страницы
 -->
 
 
-<a>Введите начальные буквы названия книги</a>
+<body>
+<h2>Главная страница библиотеки</h2>
 
-<form th:method="GET" th:action="@{/books/search}">
+<form th:method="GET" th:action="@{/}">
     <label for="search-input">Введите поисковой запрос</label>
     <input type="text" name="search_query" id="search-input" th:value="${query}"/>
     <br>
@@ -35,13 +35,19 @@
         </div>
 
         <div th:if="${book.getOwner()} != null">
-            <a>Книга сейчас у </a>
-            <a th:href="@{/people/{id}(id=${book.getOwner().getId()})}"
-               th:text="${book.getOwner().getFio()}">owner</a>
+            <a style="color : red">Эта книга сейчас занята</a>
         </div>
 
     </div>
 </div>
 
+<hr>
+<br>
+<p>информация о библиотеке</p>
+
+
+<hr>
+<input type="button" value="Все книги" onclick="location.href='/books';"/>
+<input type="button" value="Все читатели" onclick="location.href='/people';"/>
 </body>
 </html>

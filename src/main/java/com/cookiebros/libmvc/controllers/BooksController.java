@@ -22,26 +22,12 @@ public class BooksController {
     private final BookValidator bookValidator;
 
 
-//    private int queryCounter;
-
     @Autowired
     public BooksController(BooksService booksService, PeopleService peopleService, BookValidator bookValidator) {
         this.booksService = booksService;
         this.peopleService = peopleService;
         this.bookValidator = bookValidator;
     }
-
-
-    @GetMapping("/search")
-    public String search(Model model,
-                         @RequestParam(value = "search_query", required = false) String query) {
-        model.addAttribute("query", query);
-        model.addAttribute("books", booksService.findByTitleStartingWith(query));
-//        queryCounter++;
-//        System.out.println("Query " + queryCounter);
-        return  "books/search";
-    }
-
 
     @GetMapping()
     public String index(Model model,
@@ -113,5 +99,14 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         booksService.delete(id);
         return "redirect:/books";
+    }
+
+
+    @GetMapping("/search")
+    public String search(Model model,
+                         @RequestParam(value = "search_query", required = false) String query) {
+        model.addAttribute("query", query);
+        model.addAttribute("books", booksService.findByTitleStartingWith(query));
+        return  "books/search";
     }
 }

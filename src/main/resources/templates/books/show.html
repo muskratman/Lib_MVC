@@ -5,7 +5,10 @@
     <title>Страница книги</title>
 </head>
 <body>
+<!--TODO
+Добавить картинку книги
 
+-->
 <div>
     <table>
         <tr>
@@ -18,11 +21,11 @@
         </tr>
         <tr>
             <th>Автор</th>
-            <td><a th:text="${book.getAuthor()}">НАЗВАНИЕ КНИГИ</a></td>
+            <td><a th:text="${book.getAuthor()}">АВТОР КНИГИ</a></td>
         </tr>
         <tr>
             <th>Год издания</th>
-            <td><a th:text="${book.getYearOfPublishing()}">ГОД РОЖДЕНИЯ</a></td>
+            <td><a th:text="${book.getYearOfPublishing()}">ГОД ПУБЛИКАЦИИ</a></td>
         </tr>
     </table>
 </div>
