@@ -6,11 +6,6 @@
 </head>
 <body>
 
-<!--TODO
-Доступ только Менеджерам и Админам
-Добавить картинку книги
--->
-
 <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
     <div>
         <table>
