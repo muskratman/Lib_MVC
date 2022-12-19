@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <title>Страница читателей</title>
 </head>
-<body>
-
 
 <!--TODO
 Доступ только Менеджерам и Админам
+
 Добавить картинку Юзера
+https://www.youtube.com/watch?v=UhSEsoIUROA&ab_channel=BrandanJones
+//RESIZE
+https://www.youtube.com/watch?v=E6Ti5DNBajw&list=RDCMUCYZCPdpz0ClWyGJWd1dZsug&index=6&ab_channel=BrandanJones
+//WATERMARK
+https://www.youtube.com/watch?v=-U4xJHD5FyE&ab_channel=BrandanJones
+
 Сортировка Юзеров сначала по ролям потом по алфавиту
 Подсветка Админов зеленым цветом
 -->
+
+<body>
+<div th:replace="~{fragments :: header}">HEADER</div>
 
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
@@ -24,5 +32,6 @@
 <hr>
 <input type="button" value="Добавить читателя" onclick="location.href='/people/new';"/>
 
+<div th:replace="~{fragments :: footer}">FOOTER</div>
 </body>
 </html>

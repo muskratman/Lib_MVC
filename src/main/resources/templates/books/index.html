@@ -7,9 +7,16 @@
 
 <!--TODO
 Добавить картинку книги
+https://www.youtube.com/watch?v=UhSEsoIUROA&ab_channel=BrandanJones
+//RESIZE
+https://www.youtube.com/watch?v=E6Ti5DNBajw&list=RDCMUCYZCPdpz0ClWyGJWd1dZsug&index=6&ab_channel=BrandanJones
+//WATERMARK
+https://www.youtube.com/watch?v=-U4xJHD5FyE&ab_channel=BrandanJones
 -->
 
 <body>
+<div th:replace="~{fragments :: header}">HEADER</div>
+
 
 <div th:each="book : ${books}">
     <a th:href="@{/books/{id}(id=${book.getId()})}"
@@ -20,6 +27,9 @@
 <hr>
 <input type="button" value="Добавить книгу" onclick="location.href='/books/new';"/>
 <input type="button" value="Поиск книг" onclick="location.href='/books/search';"/>
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
 </body>
 
 </html>
