@@ -59,7 +59,7 @@ public class PeopleService {
         long millis;
 
         if (person.isPresent()) {
-            Hibernate.initialize(person.get().getBooks());
+            Hibernate.initialize(person.get().getBookInstances());
             books = booksRepository.findByOwner(person.get());
             for (Book book : books) {
                 millis = currentDate.getTime() - book.getOwningDate().getTime();

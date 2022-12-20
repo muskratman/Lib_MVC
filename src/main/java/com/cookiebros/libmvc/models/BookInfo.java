@@ -1,9 +1,11 @@
 package com.cookiebros.libmvc.models;
 
+import com.cookiebros.libmvc.util.Genres;
 import com.cookiebros.libmvc.util.SizeFormats;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 //CREATE TABLE Book_Info(
 //    book_id int PRIMARY KEY REFERENCES Book(id) ON DELETE CASCADE,
@@ -26,7 +28,7 @@ public class BookInfo implements Serializable {
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
     @Column(name = "genres")
-    private String genres;
+    private List<Genres> genres;
     @Column(name = "publisher")
     private String publisher;
     @Column(name = "sheets")

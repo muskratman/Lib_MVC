@@ -25,7 +25,7 @@ https://www.youtube.com/watch?v=-U4xJHD5FyE&ab_channel=BrandanJones
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
        th:text="'id#' + ${person.getId()} + '/ ' + ${person.getFio()} + ', ' + ${person.getYearOfBirth()}">someUser</a>
-    <a th:text="'Взято книг - ' + ${person.getBooks().size()}"></a>
+    <a th:text="'Взято книг - ' + ${person.getBookInstances().size()}"></a>
 </div>
 
 <br>

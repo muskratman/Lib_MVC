@@ -14,10 +14,10 @@ import jakarta.persistence.*;
 @Table(name = "Book_Rating")
 public class BookRating {
     @Id
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
     @Column(name = "rating")

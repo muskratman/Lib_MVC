@@ -2,7 +2,6 @@ package com.cookiebros.libmvc.models;
 
 import com.cookiebros.libmvc.util.Roles;
 import jakarta.persistence.*;
-import org.hibernate.validator.constraints.CodePointLength;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +46,9 @@ public class Person {
     private String photoPath;
 
 
-    @OneToMany(mappedBy = "owner")
-    private List<BookInstance> books;
-    @OneToOne(mappedBy = "person")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<BookInst> bookInstances;
+    @OneToOne(mappedBy = "person", fetch = FetchType.LAZY)
     private BookRating bookRating;
 
 
@@ -117,18 +116,22 @@ public class Person {
 
 
 
-    public List<BookInstance> getBooks() {
-        return books;
+    public List<BookInst> getBookInstances() {
+        return bookInstances;
     }
 
-    public void setBooks(List<BookInstance> books) {
-        this.books = books;
+    public void setBookInstances(List<BookInst> bookInstances) {
+        this.bookInstances = bookInstances;
     }
 
-    public void addBook(BookInstance bookInstance) {
-        if (getBooks().isEmpty())
-            setBooks(new ArrayList<>());
-        books.add(bookInstance);
+    public void addBookInst(BookInst bookInst) {
+        if (getBookInstances().isEmpty())
+            setBookInstances(new ArrayList<>());
+        bookInstances.add(bookInst);
+    }
+
+    public void removeBookInst(int bookInst id) {
+        getBookInstances().removeIf(bookInst -> bookInst.getId() == id)
     }
 
 
@@ -144,7 +147,7 @@ public class Person {
     public String toString() {
         return "Person{" +
                 "id=" + id +
-                ", fio='" + fio + '\'' +
+                ", name='" + firstName + " " + lastName + '\'' +
                 ", yearOfBirth=" + yearOfBirth +
                 '}';
     }

@@ -4,8 +4,6 @@ import com.cookiebros.libmvc.util.Genres;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 
@@ -28,20 +26,23 @@ public class Book {
     private int id;
     @Column(name = "title")
     private String title;
-    @Column(name = "author")
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author", referencedColumnName = "id")
+    private Author author;
     @Column(name = "year_of_publishing")
     private int yearOfPublishing;
-
     @Column(name = "main_genre")
     private Genres mainGenre;
     @Column(name = "rating")
     private Double rating;
-    @OneToOne(mappedBy = "book")
+
+
+
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
     private BookInfo bookInfo;
-    @OneToMany(mappedBy = "book")
-    private List<BookInstance> bookInstances;
-    @OneToOne(mappedBy = "book")
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<BookInst> bookInstances;
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
     private BookRating bookRating;
 
 
@@ -104,16 +105,16 @@ public class Book {
     }
 
 
-    public List<BookInstance> getBookInstances() {
+    public List<BookInst> getBookInstances() {
         return bookInstances;
     }
-    public void setBookInstances(List<BookInstance> bookInstances) {
-        this.bookInstances = bookInstances;
+    public void setBookInstances(List<BookInst> bookInsts) {
+        this.bookInstances = bookInsts;
     }
-    public void addBookInstance(BookInstance bookInstance) {
+    public void addBookInstance(BookInst bookInst) {
         if (getBookInstances().isEmpty())
             setBookInstances(new ArrayList<>());
-        bookInstances.add(bookInstance);
+        bookInstances.add(bookInst);
     }
 
 

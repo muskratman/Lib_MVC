@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Book_Instance")
-public class BookInstance {
+public class BookInst {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +34,9 @@ public class BookInstance {
 
 
 
-    public BookInstance() {}
+    public BookInst() {}
 
-    public BookInstance(Book book) {
+    public BookInst(Book book) {
         this.book = book;
     }
 
