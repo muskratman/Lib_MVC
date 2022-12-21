@@ -1,7 +1,7 @@
 package com.cookiebros.libmvc.controllers;
 
 import com.cookiebros.libmvc.models.Person;
-import com.cookiebros.libmvc.services.PeopleService;
+import com.cookiebros.libmvc.services.PeopleServiceImpl;
 import com.cookiebros.libmvc.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-    private final PeopleService peopleService;
+    private final PeopleServiceImpl peopleService;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PeopleService peopleService, PersonValidator personValidator) {
+    public PeopleController(PeopleServiceImpl peopleService, PersonValidator personValidator) {
         this.peopleService = peopleService;
         this.personValidator = personValidator;
     }

@@ -22,11 +22,16 @@ public class Author {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Book> books;
 
+
+
+
+    public Author() {}
     public Author(String fullName, int yearOfBirth, Countries country) {
         this.fullName = fullName;
         this.yearOfBirth = yearOfBirth;
         this.country = country;
     }
+
 
     public int getId() {
         return id;
@@ -52,6 +57,8 @@ public class Author {
     public void setCountry(Countries country) {
         this.country = country;
     }
+
+
     public List<Book> getBooks() {
         return books;
     }
@@ -60,7 +67,7 @@ public class Author {
     }
 
     public void addBook(Book book) {
-        if (getBooks().isEmpty())
+        if (books.isEmpty())
             setBooks(new ArrayList<>());
         books.add(book);
     }

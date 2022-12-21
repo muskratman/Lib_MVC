@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface BooksInfoRepository extends JpaRepository<BookInfo, Integer> {
-    List<BookInfo> findByGenres(String genres);
+    List<BookInfo> findByGenres(Genres genre);
     List<BookInfo> findByPublisher(String publisher);
     List<BookInfo> findByPublisherStartingWith(String publisher);
 }

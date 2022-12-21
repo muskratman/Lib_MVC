@@ -1,7 +1,7 @@
 package com.cookiebros.libmvc.util;
 
 import com.cookiebros.libmvc.models.Person;
-import com.cookiebros.libmvc.services.PeopleService;
+import com.cookiebros.libmvc.services.PeopleServiceImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 
 @Component
 public class PersonValidator implements Validator {
-    private final PeopleService peopleService;
+    private final PeopleServiceImpl peopleService;
 
-    public PersonValidator(PeopleService peopleService) {
+    public PersonValidator(PeopleServiceImpl peopleService) {
         this.peopleService = peopleService;
     }
 

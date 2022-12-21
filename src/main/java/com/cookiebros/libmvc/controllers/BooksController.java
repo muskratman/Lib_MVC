@@ -2,8 +2,8 @@ package com.cookiebros.libmvc.controllers;
 
 import com.cookiebros.libmvc.models.Book;
 import com.cookiebros.libmvc.models.Person;
-import com.cookiebros.libmvc.services.BooksService;
-import com.cookiebros.libmvc.services.PeopleService;
+import com.cookiebros.libmvc.services.BooksServiceImpl;
+import com.cookiebros.libmvc.services.PeopleServiceImpl;
 import com.cookiebros.libmvc.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,19 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/books")
 public class BooksController {
-    private final BooksService booksService;
-    private final PeopleService peopleService;
+    private final BooksServiceImpl booksService;
+    private final PeopleServiceImpl peopleService;
     private final BookValidator bookValidator;
 
 
     @Autowired
-    public BooksController(BooksService booksService, PeopleService peopleService, BookValidator bookValidator) {
+    public BooksController(BooksServiceImpl booksService, PeopleServiceImpl peopleService, BookValidator bookValidator) {
         this.booksService = booksService;
         this.peopleService = peopleService;
         this.bookValidator = bookValidator;

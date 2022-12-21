@@ -50,7 +50,7 @@ public class Book {
 
     public Book() {}
 
-    public Book(String title, String author, int yearOfPublishing, Genres mainGenre, Double rating) {
+    public Book(String title, Author author, int yearOfPublishing, Genres mainGenre, Double rating) {
         this.title = title;
         this.author = author;
         this.yearOfPublishing = yearOfPublishing;
@@ -71,10 +71,10 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
     public int getYearOfPublishing() {

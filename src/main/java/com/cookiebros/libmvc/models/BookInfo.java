@@ -29,8 +29,9 @@ public class BookInfo implements Serializable {
     private Book book;
     @Column(name = "genres")
     private List<Genres> genres;
-    @Column(name = "publisher")
-    private String publisher;
+    @ManyToOne
+    @JoinColumn(name = "publisher", referencedColumnName = "id")
+    private Publisher publisher;
     @Column(name = "sheets")
     private int sheets;
     @Column(name = "size_format")
@@ -44,12 +45,14 @@ public class BookInfo implements Serializable {
     @Column(name = "rating_score")
     private int ratingScore;
 
-    public BookInfo(){}
 
+
+
+
+    public BookInfo(){}
     public BookInfo(Book book) {
         this.book = book;
     }
-
 
 
     public Book getBook() {
@@ -58,16 +61,16 @@ public class BookInfo implements Serializable {
     public void setBook(Book book) {
         this.book = book;
     }
-    public String getGenres() {
+    public List<Genres> getGenres() {
         return genres;
     }
-    public void setGenres(String genres) {
+    public void setGenres(List<Genres> genres) {
         this.genres = genres;
     }
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
-    public void setPublisher(String publisher) {
+    public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
     public int getSheets() {
@@ -106,6 +109,7 @@ public class BookInfo implements Serializable {
     public void setRatingScore(int ratingScore) {
         this.ratingScore = ratingScore;
     }
+
 
     @Override
     public String toString() {

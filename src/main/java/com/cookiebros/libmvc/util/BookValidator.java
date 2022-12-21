@@ -1,7 +1,7 @@
 package com.cookiebros.libmvc.util;
 
 import com.cookiebros.libmvc.models.Book;
-import com.cookiebros.libmvc.services.BooksService;
+import com.cookiebros.libmvc.services.BooksServiceImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,9 +9,9 @@ import org.springframework.validation.Validator;
 @Component
 public class BookValidator implements Validator {
 
-    private final BooksService booksService;
+    private final BooksServiceImpl booksService;
 
-    public BookValidator(BooksService booksService) {
+    public BookValidator(BooksServiceImpl booksService) {
         this.booksService = booksService;
     }
 

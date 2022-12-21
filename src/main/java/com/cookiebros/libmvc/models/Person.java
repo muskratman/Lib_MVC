@@ -130,10 +130,6 @@ public class Person {
         bookInstances.add(bookInst);
     }
 
-    public void removeBookInst(int bookInst id) {
-        getBookInstances().removeIf(bookInst -> bookInst.getId() == id)
-    }
-
 
     public BookRating getBookRating() {
         return bookRating;

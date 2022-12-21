@@ -1,7 +1,7 @@
 package com.cookiebros.libmvc.controllers;
 
 
-import com.cookiebros.libmvc.services.BooksService;
+import com.cookiebros.libmvc.services.BooksServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/")
 public class MainController {
-    private final BooksService booksService;
+    private final BooksServiceImpl booksService;
     @Autowired
-    public MainController(BooksService booksService) {
+    public MainController(BooksServiceImpl booksService) {
         this.booksService = booksService;
     }
 
