@@ -1,11 +1,128 @@
-<div th:fragment="header">
-    HEADER (fragment)
+<head th:fragment="head (head_text)">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/svg.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${head_text}"></title>
+</head>
+
+
+<div th:fragment="navbar" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" th:with="currUrl=${#ctx.springRequestContext.requestUri}">
+    <table class="nav_table" >
+        <tr>
+            <td>
+                <img src ="/SVG/icons/LibMVC_icon.svg" style="width: 50px;height: 50px" onclick="location.href='/';" th:disabled="${currUrl} == '/'">
+            </td>
+            <td>
+                <input class="nav_butt" type="button" value="Книги" onclick="location.href='/books';" th:disabled="${currUrl} == '/books'"/>
+            </td>
+            <td>
+                <input class="nav_butt" type="button" value="Читатели" onclick="location.href='/people';" th:disabled="${currUrl} == '/people'"/>
+            </td>
+            <td>
+                <input class="nav_butt" type="button" value="Авторы" onclick="location.href='/authors';" th:disabled="${currUrl} == '/authors'"/>
+            </td>
+            <td>
+                <input class="nav_butt" type="button" value="Издатели" onclick="location.href='/publishers';" th:disabled="${currUrl} == '/publishers'"/>
+            </td>
+            <td>
+                <input class="nav_butt" type="button" value="Жанры" onclick="location.href='/genres';" th:disabled="${currUrl} == '/genres'"/>
+            </td>
+            <td>
+                <input class="nav_butt" type="button" value="Страны" onclick="location.href='/countries';" th:disabled="${currUrl} == '/countries'"/>
+            </td>
+
+            <td th:if="${currUrl} != '/books'" style="text-align:right;">
+                <form th:method="GET" th:action="@{/search}">
+                    <input type="text" name="search_query" th:value="${query}" placeholder="Поиск" style="width: 75%"/>
+                    <input type="submit" value="Искать" style="width: 20%"/>
+                </form>
+            </td>
+            <td sec:authorize="isAuthenticated()"><span th:remove="tag" sec:authentication="name">USER NAME</span></td>
+            <td sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="Sign Out"/>
+                </form>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<div th:fragment="footer">
+
+<div th:fragment="header (h2_text)" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+    <h2 th:text="${h2_text}" style="text-align: center;"></h2>
     <hr>
-    FOOTER (fragment)
-    <input type="button" value="Все книги" onclick="location.href='/books';"/>
-    <input type="button" value="Поиск книг" onclick="location.href='/books/search';"/>
-    <input type="button" value="Все читатели" onclick="location.href='/people';"/>
+    <br>
 </div>
+
+
+
+<div th:fragment="footer" class="footer">
+    <br>
+    <hr>
+    <div class="footer">
+        <input type="button" value="Все книги" onclick="location.href='/books';"/>
+        <input type="button" value="Поиск книг" onclick="location.href='/books/search';"/>
+        <input type="button" value="Все читатели" onclick="location.href='/people';"/>
+    </div>
+</div>
+
+<!--<div th:fragment="footer" >-->
+<!--    <div class="footer">-->
+<!--        <br>-->
+<!--        <hr>-->
+<!--        <input type="button" value="Все книги" onclick="location.href='/books';"/>-->
+<!--        <input type="button" value="Поиск книг" onclick="location.href='/books/search';"/>-->
+<!--        <input type="button" value="Все читатели" onclick="location.href='/people';"/>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+<div th:fragment="logout">
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+
+
+
+<div th:fragment="test_grid" class="container">
+        <div class="box-1"> A </div>
+        <div class="box-2"> B </div>
+        <div class="box-3"> C </div>
+</div>
+
+<!--<div class="container">-->
+<!--    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">-->
+<!--        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">-->
+<!--            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>-->
+<!--        </a>-->
+
+<!--        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">-->
+<!--            <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>-->
+<!--            <li><a href="#" class="nav-link px-2 text-white">Features</a></li>-->
+<!--            <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>-->
+<!--            <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>-->
+<!--            <li><a href="#" class="nav-link px-2 text-white">About</a></li>-->
+<!--        </ul>-->
+
+<!--        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">-->
+<!--            <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">-->
+<!--        </form>-->
+
+<!--        <div class="text-end">-->
+<!--            <button type="button" class="btn btn-outline-light me-2">Login</button>-->
+<!--            <button type="button" class="btn btn-warning">Sign-up</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+

@@ -6,14 +6,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.util.Optional;
-import java.util.regex.Pattern;
-
-@Component
-public class PersonValidator implements Validator {
+@Component("PersonValidator")
+public class PersonValidatorImpl implements Validator {
     private final PeopleServiceImpl peopleService;
 
-    public PersonValidator(PeopleServiceImpl peopleService) {
+    public PersonValidatorImpl(PeopleServiceImpl peopleService) {
         this.peopleService = peopleService;
     }
 
@@ -33,11 +30,11 @@ public class PersonValidator implements Validator {
         int fioMax = 60;
         String fioPattern = "[А-Я][а-я]{2,20} [А-Я][а-я]{2,20} [А-Я][а-я]{0,20}";
 
-        if (person.getFio().length() < fioMin || person.getFio().length() > fioMax) {
-            errors.rejectValue("fio", "", "FIO should be between 2 and 30 characters");
-        } else if (!Pattern.compile(fioPattern).matcher(person.getFio()).matches()) {
-            errors.rejectValue("fio", "", "Invalid characters in FIO");
-        }
+//        if (person.getFio().length() < fioMin || person.getFio().length() > fioMax) {
+//            errors.rejectValue("fio", "", "FIO should be between 2 and 30 characters");
+//        } else if (!Pattern.compile(fioPattern).matcher(person.getFio()).matches()) {
+//            errors.rejectValue("fio", "", "Invalid characters in FIO");
+//        }
 
         //YearOfBirth
         if (person.getYearOfBirth() < 1900 || person.getYearOfBirth() > 2022)
@@ -45,10 +42,10 @@ public class PersonValidator implements Validator {
 
 
         //проверка на уникальность FIO в БД
-        Optional<Person> foundPerson = peopleService.findByFio(person.getFio());
+//        Optional<Person> foundPerson = peopleService.findByFio(person.getFio());
 
-        if (foundPerson.isPresent() && foundPerson.get().getId() != person.getId()) {
-            errors.rejectValue("fio", "", "This FIO is already taken");
-        }
+//        if (foundPerson.isPresent() && foundPerson.get().getId() != person.getId()) {
+//            errors.rejectValue("fio", "", "This FIO is already taken");
+//        }
     }
 }

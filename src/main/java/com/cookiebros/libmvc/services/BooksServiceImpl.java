@@ -5,9 +5,10 @@ import com.cookiebros.libmvc.repositories.BooksInfoRepository;
 import com.cookiebros.libmvc.repositories.BooksRatingRepository;
 import com.cookiebros.libmvc.repositories.BooksRepository;
 import com.cookiebros.libmvc.repositories.PeopleRepository;
-import com.cookiebros.libmvc.util.Genres;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
-public class BooksServiceImpl {
+public class BooksServiceImpl implements BooksService{
     private final BooksRepository booksRepository;
     private final BooksInfoRepository booksInfoRepository;
     private final BooksRatingRepository booksRatingRepository;
@@ -29,34 +30,24 @@ public class BooksServiceImpl {
     }
 
 
-    private int id;
-    private String title;
-    private String author;
-    private int yearOfPublishing;
-    private Genres mainGenre;
-    private Double rating;
-    private BookInfo bookInfo;
-    private List<BookInst> bookInsts;
-    private BookRating bookRating;
-
     //CRUD
     //CRUD
     //CRUD
+    @Override
     @Transactional
-    public void save(Book savedBook, BookInfo bookInfo, BookRating bookRating) {
+    public void save(Book savedBook, BookInfo bookInfo) {
         booksRepository.save(savedBook);
 
         bookInfo.setBook(savedBook);
         booksInfoRepository.save(bookInfo);
-
-        bookRating.setBook(savedBook);
-        booksRatingRepository.save(bookRating);
     }
+    @Override
     @Transactional
     public void update(int id, Book updatedBook) {
         updatedBook.setId(id);
         booksRepository.save(updatedBook);
     }
+    @Override
     @Transactional
     public void delete(int id) {
         booksRepository.deleteById(id);
@@ -67,28 +58,40 @@ public class BooksServiceImpl {
     //
     //FIND
     //
-    public List<Book> findAll(Integer pageNumber, Integer pageCount, Boolean sortByYear) {
+//    @Override
+//    public List<Book> findAll() {
+//        return booksRepository.findAll();
+//    }
 
-        if (pageNumber != null && pageCount != null && sortByYear == null) {
-            return booksRepository.findAll(PageRequest.of(pageNumber, pageCount)).getContent();
-        } else if (pageNumber == null && pageCount == null && (sortByYear != null && sortByYear)) {
-            return booksRepository.findAll(Sort.by("yearOfPublishing"));
-        } else if (pageNumber != null && pageCount != null && sortByYear) {
-            return booksRepository.findAll(PageRequest.of(pageNumber, pageCount,
-                                            Sort.by("yearOfPublishing")))
-                                            .getContent();
+//    public Page<Book> findAll(Pageable pageable) {
+//        return booksRepository.findAll(pageable);
+//    }
+
+    @Override
+    public List<Book> findAll(Integer pageNumber, Integer perPageCount, String sort) {
+        pageNumber = 0;
+        perPageCount = 20;
+        if (sort != null && sort.equals("year")) {
+            sort = "yearOfPublishing";
+        } else {
+            sort = "title";
         }
-        return booksRepository.findAll();
+        return booksRepository.findAll(PageRequest.of(pageNumber, perPageCount,
+                                                Sort.by(sort)))
+                                                .getContent();
     }
 
+    @Override
     public Book findById(int id) {
         return booksRepository.findById(id).orElse(null);
     }
 
-    public Optional<Book> findOne(String title, String author, int yearOfPublishing) {
+    @Override
+    public Optional<Book> findOne(String title, Author author, int yearOfPublishing) {
         return booksRepository.findByTitleAndAuthorAndYearOfPublishing(title, author, yearOfPublishing);
     }
 
+    @Override
     public List<Book> findByTitleStartingWith(String query) {
         if (query == null || query.isEmpty()) {
             return Collections.emptyList();
@@ -96,16 +99,5 @@ public class BooksServiceImpl {
             return booksRepository.findByTitleStartingWithIgnoreCase(query);
         }
     }
-
-
-    //
-    //OTHER
-    //
-
-
-
-
-
-
 
 }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Добавить Автора')}">HEAD</head>
+
+<body>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Добавить Автора')}">HEADER</div>
+
+
+<form th:method="POST" th:action="@{/authors}" th:object="${author}">
+    <div>
+        <table>
+            <tr>
+                <th>Полное имя Автора</th>
+                <td><input type="text" th:field="*{fullName}"></td>
+                <td style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">ERROR</td>
+            </tr>
+            <tr>
+                <th>Год рождения</th>
+                <td><input type="text" th:field="*{yearOfBirth}"></td>
+                <td style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">ERROR</td>
+            </tr>
+            <tr>
+                <th>Страна</th>
+                <td>
+                    <select th:field="*{country}">
+                        <option th:each="country : ${countries}" th:value="${country.getId()}"
+                                th:text="${country.getName()}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Краткая биография</th>
+                <td><input type="text" th:field="*{bio}" size="40"></td>
+                <td style="color:red" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}">ERROR</td>
+            </tr>
+        </table>
+        <input type="submit" value="Добавить Автора">
+    </div>
+</form>
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Все Авторы')}">HEAD</head>
+
+<body>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Все Авторы')}">HEADER</div>
+
+<input type="button" value="Добавить автора" onclick="location.href='/authors/new';"/>
+<br>
+<br>
+
+<div th:each="author : ${authors}">
+    <a th:href="@{/authors/{id}(id=${author.getId()})}"
+       th:text="${author.getFullName()} + ', '
+                + ${author.getYearOfBirth()} + ', '
+                + ${author.getCountry().getName()}">someAuthor</a>
+</div>
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
+</body>
+</html>

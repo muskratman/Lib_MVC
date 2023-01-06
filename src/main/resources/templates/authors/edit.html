@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Редактировать Автора')}">HEAD</head>
+
+
+<body>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Редактировать Автора')}">HEADER</div>
+
+
+<form th:method="PATCH" th:action="@{/authors/{id}(id=${author.getId()})}" th:object="${author}">
+    <div>
+        <table>
+            <tr>
+                <th>Полное имя Автора</th>
+                <td><input type="text" th:field="*{fullName}"></td>
+                <td style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">ERROR</td>
+            </tr>
+            <tr>
+                <th>Год рождения</th>
+                <td><input type="text" th:field="*{yearOfBirth}"></td>
+                <td style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">ERROR</td>
+            </tr>
+            <tr>
+                <th>Страна</th>
+                <td>
+                    <select th:field="*{country}">
+                        <option th:each="country : ${countries}" th:value="${country.getId()}"
+                                th:text="${country.getName()}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Краткая биография</th>
+                <td><input type="text" th:field="*{bio}"></td>
+                <td style="color:red" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}">ERROR</td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" value="Обновить данные Автора">
+    </div>
+</form>
+
+
+
+
+
+<!--<br>-->
+<!--<div>-->
+<!--    <a th:if="${owner} == null">Эта книга сейчас свободна</a>-->
+<!--    <a th:if="${owner} != null">Эта книга сейчас у </a>-->
+<!--    <a th:if="${owner} != null" th:text="${owner.getFio()}" th:href="@{/people/{id}(id=${owner.getId()})}"></a>-->
+<!--</div>-->
+<!--<br>-->
+<!--<a>Назначить книгу / освободить книгу</a>-->
+<!--<form th:method="POST" th:action="@{/books/{id}/add_owner(id=${book.getId()})}">-->
+<!--    <br>-->
+<!--    <select th:object="${person}" th:field="*{id}">-->
+<!--        <option th:each="person : ${people}" th:value="${person.getId()}"-->
+<!--                th:text="${person.getFio()} + '   id=' + ${person.getId()}">-->
+<!--        </option>-->
+<!--    </select>-->
+<!--    <input type="submit" value="Назначить книгу этому читателю"/>-->
+<!--</form>-->
+<!--<form th:method="POST" th:action="@{/books/{id}/release(id=${book.getId()})}" th:if="${owner} != null">-->
+<!--    <input type="submit" value="Освободить эту книгу">-->
+<!--</form>-->
+
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
+</body>
+</html>

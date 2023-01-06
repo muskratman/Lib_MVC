@@ -2,7 +2,7 @@ package com.cookiebros.libmvc.controllers;
 
 import com.cookiebros.libmvc.models.Person;
 import com.cookiebros.libmvc.services.PeopleServiceImpl;
-import com.cookiebros.libmvc.util.PersonValidator;
+import com.cookiebros.libmvc.util.PersonValidatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/people")
 public class PeopleController {
     private final PeopleServiceImpl peopleService;
-    private final PersonValidator personValidator;
+    private final PersonValidatorImpl personValidator;
 
     @Autowired
-    public PeopleController(PeopleServiceImpl peopleService, PersonValidator personValidator) {
+    public PeopleController(PeopleServiceImpl peopleService, PersonValidatorImpl personValidator) {
         this.peopleService = peopleService;
         this.personValidator = personValidator;
     }
@@ -31,8 +31,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findById(id));
-        model.addAttribute("readersBooks", peopleService.showReaderBooks(id));
-        System.out.println(peopleService.showReaderBooks(id));
+        model.addAttribute("readersBooks", peopleService.getBooksInstByPersonId(id));
         return "people/show";
     }
 
@@ -58,8 +57,8 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@PathVariable("id") int id, @ModelAttribute("person") Person person,
-                         BindingResult bindingResult) {
+    public String update(@PathVariable("id") int id,
+                         @ModelAttribute("person") Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
 
         if (bindingResult.hasErrors())

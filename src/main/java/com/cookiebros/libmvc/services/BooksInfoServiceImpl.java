@@ -1,9 +1,9 @@
 package com.cookiebros.libmvc.services;
 
 import com.cookiebros.libmvc.models.BookInfo;
+import com.cookiebros.libmvc.models.Genre;
 import com.cookiebros.libmvc.repositories.BooksInfoRepository;
 import com.cookiebros.libmvc.repositories.BooksRepository;
-import com.cookiebros.libmvc.util.Genres;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +22,17 @@ public class BooksInfoServiceImpl implements BooksInfoService{
         this.booksRepository = booksRepository;
     }
 
-    //CRUD
-    //CRUD
+
     //CRUD
     @Override
     @Transactional
-    public void update(int id, BookInfo updatedBookInfo) {
-        updatedBookInfo.getBook().setId(id);
+    public void update(int bookId, BookInfo updatedBookInfo) {
+        BookInfo bookInfo = findByBookId(bookId);
+
+        updatedBookInfo.setBook(bookInfo.getBook());
+        updatedBookInfo.setRatingCount(bookInfo.getRatingCount());
+        updatedBookInfo.setRatingScore(bookInfo.getRatingScore());
+
         booksInfoRepository.save(updatedBookInfo);
     }
 
@@ -38,18 +42,21 @@ public class BooksInfoServiceImpl implements BooksInfoService{
     //FIND
     //
     @Override
-    public BookInfo findById(int id) {
-        return booksInfoRepository.findById(id).orElse(null);
+    public BookInfo findByBookId(int bookId) {
+        return booksInfoRepository.findByBookId(bookId).orElse(null);
     }
 
     @Override
-    public List<BookInfo> findByGenres(Genres genre) {
-        return booksInfoRepository.findByGenres(genre);
+    public List<BookInfo> findByGenre(String genre) {
+//        Genres searchingGenre = genre.
+//        return booksInfoRepository.findByGenres(genre);
+        return null;
     }
 
     @Override
     public List<BookInfo> findByPublisherStartingWith(String publisher) {
-        return booksInfoRepository.findByPublisherStartingWith(publisher);
+//        return booksInfoRepository.findByPublisherStartingWith(publisher);
+        return null;
     }
 
 
@@ -58,15 +65,15 @@ public class BooksInfoServiceImpl implements BooksInfoService{
     //OTHER
     //
     @Override
-    public void addGenre(int id, Genres genre) {
-        BookInfo bookInfo = booksInfoRepository.findById(id).orElse(null);
-        if (bookInfo != null)
-            bookInfo.getGenres().add(genre);
+    public void addGenre(int bookId, Genre genre) {
+//        BookInfo bookInfo = booksInfoRepository.findById(bookId).orElse(null);
+//        if (bookInfo != null)
+//            bookInfo.getGenres().add(genre);
     }
     @Override
-    public void removeGenre(int id, Genres genre) {
-        BookInfo bookInfo = booksInfoRepository.findById(id).orElse(null);
-        if (bookInfo != null)
-            bookInfo.getGenres().remove(genre);
+    public void removeGenre(int bookId, Genre genre) {
+//        BookInfo bookInfo = booksInfoRepository.findById(bookId).orElse(null);
+//        if (bookInfo != null)
+//            bookInfo.getGenres().remove(genre);
     }
 }

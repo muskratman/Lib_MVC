@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Страница Автора')}">HEAD</head>
+
+<body>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Страница Автора')}">HEADER</div>
+
+<table>
+    <td>
+        <tr>
+            <button>
+                <a th:href="@{'/authors/' + ${author.getId()} + '/edit'}" class="button">Редактировать Автора</a>
+            </button>
+        </tr>
+        <tr>
+            <form th:method="DELETE" th:action="@{/authors/{id}(id=${author.getId()})}">
+                <input type="submit" value="Удалить этого Автора">
+            </form>
+        </tr>
+    </td>
+</table>
+
+
+
+<div>
+    <table>
+        <tr>
+            <th>Полное имя</th>
+            <td><a th:text="${author.getFullName()}"></a></td>
+        </tr>
+        <tr>
+            <th>Год рождения</th>
+            <td><a th:text="${author.getYearOfBirth()}"></a></td>
+        </tr>
+        <tr>
+            <th>Страна</th>
+            <td><a th:text="${author.getCountry().getName()}"></a></td>
+        </tr>
+        <tr>
+            <th>Краткая биография</th>
+            <td><p th:text="${author.getBio()}"></p></td>
+        </tr>
+    </table>
+</div>
+
+
+<div th:if="${books} and ${books} != null">
+    <br>
+    <br>
+    <a>Книги Автора:</a>
+    <div th:each="book : ${books}">
+        <a th:href="@{/books/{id}(id=${book.getId()})}"
+           th:text="${book.getTitle()} + ', '
+              + ${book.getYearOfPublishing()}">
+        </a>
+    </div>
+</div>
+
+
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
+</body>
+</html>

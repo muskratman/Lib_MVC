@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Страница книг</title>
-</head>
-
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Все Книги')}">HEAD</head>
 <!--TODO
 Добавить картинку книги
 https://www.youtube.com/watch?v=UhSEsoIUROA&ab_channel=BrandanJones
@@ -15,21 +13,97 @@ https://www.youtube.com/watch?v=-U4xJHD5FyE&ab_channel=BrandanJones
 -->
 
 <body>
-<div th:replace="~{fragments :: header}">HEADER</div>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Все книги')}">HEADER</div>
 
 
-<div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.getId()})}"
-       th:text="${book.getTitle()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYearOfPublishing()}">someBook</a>
-</div>
+<table class="nav_table">
+    <tr>
+        <td style="width: 5%">
+            <input type="button" value="Добавить новую книгу" onclick="location.href='/books/new';"/>
+        </td>
+        <td style="width: 50%">
+            <form th:method="GET" th:action="@{/search}">
+                <input type="text" name="search_query" th:value="${query}" placeholder="Поиск книг" style="width: 75%"/>
+                <input type="submit" value="Искать" style="width: 20%"/>
+            </form>
+        </td>
+        <td style="width: 5%">
+            <div>
+                <img src ="/SVG/icons/sort_icon.svg" style="width: 20px;height: 20px">
+                <select name="books sorting" id="sort">
+                    <option value="title">Название</option>
+                    <option value="yearOfPublishing" selected>Год</option>
+                </select>
+            </div>
+        </td>
+        <td style="width: 5%">
+            <div>
+                <img src ="/SVG/icons/tile_icon.svg" style="width: 20px;height: 20px">
+                <select name="books count" id="per_page_count">
+                    <option th:value="6">6</option>
+                    <option th:value="12">12</option>
+                    <option th:value="24">24</option>
+                </select>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
 
 <br>
-<hr>
-<input type="button" value="Добавить книгу" onclick="location.href='/books/new';"/>
-<input type="button" value="Поиск книг" onclick="location.href='/books/search';"/>
+<br>
+
+
+
+
+
+<table class="table_block">
+        <tr th:if="${i.index} % 3 == 0" th:each="book, i : ${books}">
+
+            <td th:if="${books.size()} > ${i.index} + 0">
+
+                <img class="img_cover" src="images/books/covers/def_cover_s.jpg">
+                <p th:href="@{/books/{id}(id=${books.get(i.index + 0).getId()})}"
+                   th:text="${books.get(i.index + 0).getTitle()}">
+                </p>
+<!--                <p th:text="'Автор: ' + ${books.get(i.index + 0).getAuthor().getFullName()}"></p>-->
+                <p th:text="'Год издания: ' + ${books.get(i.index + 0).getYearOfPublishing()}"></p>
+<!--                <p th:text="'Жанр: ' + ${books.get(i.index + 0).getMainGenre().getName()}"></p>-->
+
+            </td>
+
+            <td th:if="${books.size()} > ${i.index} + 1">
+
+                <img class="img_cover" src="images/books/covers/def_cover_s.jpg">
+                <p th:href="@{/books/{id}(id=${books.get(i.index + 1).getId()})}"
+                   th:text="${books.get(i.index + 1).getTitle()}">
+                </p>
+<!--                <p th:text="'Автор: ' + ${books.get(i.index + 1).getAuthor().getFullName()}"></p>-->
+                <p th:text="'Год издания: ' + ${books.get(i.index + 1).getYearOfPublishing()}"></p>
+<!--                <p th:text="'Жанр: ' + ${books.get(i.index + 1).getMainGenre().getName()}"></p>-->
+
+            </td>
+
+            <td th:if="${books.size()} > ${i.index} + 2">
+
+                <img class="img_cover" src="images/books/covers/def_cover_s.jpg">
+                <p th:href="@{/books/{id}(id=${books.get(i.index + 2).getId()})}"
+                   th:text="${books.get(i.index + 2).getTitle()}">
+                </p>
+<!--                <p th:text="'Автор: ' + ${books.get(i.index + 2).getAuthor().getFullName()}"></p>-->
+                <p th:text="'Год издания: ' + ${books.get(i.index + 2).getYearOfPublishing()}"></p>
+<!--                <p th:text="'Жанр: ' + ${books.get(i.index + 2).getMainGenre().getName()}"></p>-->
+
+            </td>
+        </tr>
+</table>
+
 
 
 <div th:replace="~{fragments :: footer}">FOOTER</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 
 </html>

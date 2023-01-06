@@ -14,18 +14,26 @@ public class Publisher {
     private int id;
     @Column(name = "publisher_name")
     private String name;
-    @Column(name = "country")
-    private String country;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    private Country country;
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
     private List<BookInfo> booksInfo;
 
 
 
+
+
     public Publisher() {}
-    public Publisher(String name, String country) {
+    public Publisher(String name, Country country) {
         this.name = name;
         this.country = country;
     }
+
+
 
 
     public int getId() {
@@ -40,10 +48,10 @@ public class Publisher {
     public void setName(String name) {
         this.name = name;
     }
-    public String getCountry() {
+    public Country getCountry() {
         return country;
     }
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
     public List<BookInfo> getBooksInfo() {
@@ -52,6 +60,7 @@ public class Publisher {
     public void setBooksInfo(List<BookInfo> booksInfo) {
         this.booksInfo = booksInfo;
     }
+
 
     public void addBook(BookInfo bookInfo) {
         if (booksInfo.isEmpty())

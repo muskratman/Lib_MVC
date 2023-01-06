@@ -3,30 +3,29 @@ package com.cookiebros.libmvc.models;
 import jakarta.persistence.*;
 
 
-//CREATE TABLE Book_Rating(
-//        book_id int REFERENCES Book(id) ON DELETE CASCADE,
-//        person_id int REFERENCES Person(id) ON DELETE CASCADE,
-//        rating int CHECK (rating > 0 and rating < 11),
-//        PRIMARY KEY (book_id, person_id)
-//);
-
 @Entity
 @Table(name = "Book_Rating")
+@IdClass(BookRatingId.class)
 public class BookRating {
+
     @Id
-    @OneToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+//    @OneToOne(optional = false, orphanRemoval = true)
+    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+
+    @Id
+    @OneToOne(fetch = FetchType.LAZY)
+//    @OneToOne(optional = false, orphanRemoval = true)
+    @JoinColumn(name = "person_id", nullable = false)
     private Person person;
+
     @Column(name = "rating")
     private int rating;
 
 
 
     public BookRating(){}
-
     public BookRating(Book book, Person person, int rating) {
         this.book = book;
         this.person = person;
@@ -53,11 +52,10 @@ public class BookRating {
         this.rating = rating;
     }
 
-
     @Override
     public String toString() {
         return "BookRating{" +
-                "book=" + book.getTitle() +
+                "book=" + book +
                 ", person=" + person +
                 ", rating=" + rating +
                 '}';

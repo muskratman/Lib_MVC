@@ -1,7 +1,7 @@
 package com.cookiebros.libmvc.models;
 
-import com.cookiebros.libmvc.util.Countries;
 import jakarta.persistence.*;
+import org.hibernate.annotations.LazyToOne;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,13 @@ public class Author {
     private String fullName;
     @Column(name = "year_of_birth")
     private int yearOfBirth;
-    @Column(name = "country")
-    private Countries country;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", referencedColumnName = "id")
+    private Country country;
+    @Column(name = "author_bio")
+    private String bio;
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Book> books;
 
@@ -26,10 +31,11 @@ public class Author {
 
 
     public Author() {}
-    public Author(String fullName, int yearOfBirth, Countries country) {
+    public Author(String fullName, int yearOfBirth, Country country, String bio) {
         this.fullName = fullName;
         this.yearOfBirth = yearOfBirth;
         this.country = country;
+        this.bio = bio;
     }
 
 
@@ -51,13 +57,18 @@ public class Author {
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
     }
-    public Countries getCountry() {
+    public Country getCountry() {
         return country;
     }
-    public void setCountry(Countries country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
-
+    public String getBio() {
+        return bio;
+    }
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public List<Book> getBooks() {
         return books;

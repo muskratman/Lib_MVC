@@ -1,88 +1,77 @@
 package com.cookiebros.libmvc.services;
 
-import com.cookiebros.libmvc.models.Book;
+import com.cookiebros.libmvc.models.BookInst;
 import com.cookiebros.libmvc.models.Person;
 import com.cookiebros.libmvc.repositories.BooksInstRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
-public class BooksInstServiceImpl implements BooksInstService{
-    private final BooksInstRepository bookInstancesRepository;
+public class BooksInstServiceImpl implements BooksInstService {
+    private final BooksInstRepository bookInstRepository;
 
     @Autowired
     public BooksInstServiceImpl(BooksInstRepository bookInstancesRepository) {
-        this.bookInstancesRepository = bookInstancesRepository;
+        this.bookInstRepository = bookInstancesRepository;
     }
 
 
     //CRUD
-    //CRUD
-    //CRUD
-
+    @Override
     @Transactional
-    public void update(int id, Book updatedBook) {
-        Book bookToBeUpdated = booksRepository.findById(id).get();
-        updatedBook.setId(id);
-        updatedBook.setOwner(bookToBeUpdated.getOwner());
-        updatedBook.setOwningDate(bookToBeUpdated.getOwningDate());
-        booksRepository.save(updatedBook);
+    public void save(BookInst savedBookInst) {
+        //возможно надо вставить setBook  и т.д.
+        bookInstRepository.save(savedBookInst);
+    }
+    @Override
+    @Transactional
+    public void delete(int bookInstId) {
+        bookInstRepository.deleteById(bookInstId);
     }
 
 
-
-    //
     //FIND
-    //
-    //    public List<Book> findByOwner(Person owner) {
-//        return booksRepository.findByOwner(owner);
-//    }
+    @Override
+    public BookInst findById(int bookInstId) {
+        return bookInstRepository.findById(bookInstId).orElse(null);
+    }
+
+    @Override
+    public List<BookInst> findByBookId(int bookId) {
+        return bookInstRepository.findByBookId(bookId);
+    }
+
+    @Override
+    public List<BookInst> findByOwner(Person owner) {
+        return bookInstRepository.findByOwner(owner);
+    }
 
 
-
-    //
     //OTHER
-    //
+    @Override
     @Transactional
-    public void addOwner(int id, int readerId) {
-        Book book = booksRepository.findById(id).orElse(null);
-        Person person = peopleRepository.findById(readerId).orElse(null);
-        try {
-            book.setOwner(person);
-            person.addBook(book);
-            book.setOwningDate(new Date());
-        } catch (NullPointerException e) {
-            System.out.println("Книга id=" + id + " или Читатель id=" + readerId + "  не найден" );
-        }
+    public void assignInst(int bookInstId, Person owner) {
+        bookInstRepository.findById(bookInstId).ifPresent(
+                bookInst -> {
+                    bookInst.setOwner(owner);
+                    bookInst.setOwningDate(new Date());
+                }
+        );
     }
-
+    @Override
     @Transactional
-    public void removeOwner(int id) {
-        Optional<Book> book = booksRepository.findById(id);
-        if (book.isPresent()) {
-            Person reader = book.get().getOwner();
-            reader.getBookInstances().remove(book);
-            book.get().setOwner(null);
-            book.get().setOwningDate(null);
-        }
-    }
-
-    @Transactional
-    public List<Book> getBooksByReaderId(int readerId) {
-        Optional<Person> person = peopleRepository.findById(readerId);
-        if (person.isPresent()) {
-            Hibernate.initialize(person.get().getBookInstances());
-            return person.get().getBookInstances();
-        } else {
-            return Collections.emptyList();
-        }
+    public void releaseInst(int bookInstId) {
+        bookInstRepository.findById(bookInstId).ifPresent(
+                bookInst -> {
+                    bookInst.setOwner(null);
+                    bookInst.setOwningDate(null);
+                }
+        );
     }
 }

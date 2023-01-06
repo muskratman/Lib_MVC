@@ -24,8 +24,8 @@ public class BooksRatingServiceImpl {
     //CRUD
     @Transactional
     public void update(int id, BookRating updatedBookRating) {
-        updatedBookRating.getBook().setId(id);
-        bookRatingRepository.save(updatedBookRating);
+//        updatedBookRating.getBook().setId(id);
+//        bookRatingRepository.save(updatedBookRating);
     }
 
 }

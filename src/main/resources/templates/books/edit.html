@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Страница редактирования книги</title>
-</head>
-<body>
+
+<head th:replace="~{fragments :: head('Редактировать Книгу')}">HEAD</head>
 
 <!--TODO
 Доступ только Менеджерам и Админам
 Добавить картинку книги
 -->
+
+
+<body>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Редактировать Книгу')}">HEADER</div>
+
 
 <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
     <div>
@@ -33,9 +36,9 @@
         <input type="submit" value="Обновить данные книги">
     </div>
 </form>
-<br>
-<hr>
-<input type="button" value="Все книги" onclick="location.href='/books';"/>
 
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
 </body>
 </html>

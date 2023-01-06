@@ -9,13 +9,12 @@ import java.util.Optional;
 public interface BooksInstService {
 
     void save(BookInst savedBookInst);
-    void update(int bookInstId, BookInst updatedBookInst);
     void delete(int bookInstId);
 
-    Optional<BookInst> findById(int bookInstId);
+    BookInst findById(int bookInstId);
     List<BookInst> findByBookId(int bookId);
-    List<BookInst> findByOwner(Person Owner);
+    List<BookInst> findByOwner(Person owner);
 
-    void addOwner(int bookInstId, Person owner);
-    void removeOwner(int bookInstId);
+    void assignInst(int bookInstId, Person owner);
+    void releaseInst(int bookInstId);
 }

@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-@Component
-public class BookValidator implements Validator {
+@Component("BookValidator")
+public class BookValidatorImpl implements Validator {
 
     private final BooksServiceImpl booksService;
 
-    public BookValidator(BooksServiceImpl booksService) {
+    public BookValidatorImpl(BooksServiceImpl booksService) {
         this.booksService = booksService;
     }
 
@@ -30,18 +30,18 @@ public class BookValidator implements Validator {
             errors.rejectValue("title", "", "Book's title should not be empty");
 
         //author
-        if (book.getAuthor().length() < 1 || book.getAuthor().length() > 60)
-            errors.rejectValue("author", "", "Book's author should not be empty");
+//        if (book.getAuthor().length() < 1 || book.getAuthor().length() > 60)
+//            errors.rejectValue("author", "", "Book's author should not be empty");
 
         //yearOfPublishing
         if (book.getYearOfPublishing() < 1600 || book.getYearOfPublishing() > 2022)
             errors.rejectValue("yearOfPublishing", "", "yearOfPublishing should be between 1600 and 2022");
 
         //Проверка на уникальность
-        Book foundBook = booksService.findOne(book.getTitle(), book.getAuthor(),
-                                                book.getYearOfPublishing()).orElse(null);
-        if (foundBook != null && foundBook.getId() != book.getId()) {
-            errors.rejectValue("title", "", "Такая книга уже есть");
-        }
+//        Book foundBook = booksService.findOne(book.getTitle(), book.getAuthor(),
+//                                                book.getYearOfPublishing()).orElse(null);
+//        if (foundBook != null && foundBook.getId() != book.getId()) {
+//            errors.rejectValue("title", "", "Такая книга уже есть");
+//        }
     }
 }

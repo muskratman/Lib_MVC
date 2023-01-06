@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Добавить читателя</title>
-</head>
-<body>
+
+<head th:replace="~{fragments :: head('Добавить Читателя')}">HEAD</head>
 
 <!--TODO
 Доступ только Менеджерам и Админам
 Добавить картинку Юзера
 Добавить поле изменения РОЛИ
 -->
+
+
+<body>
+<div th:replace="~{fragments :: navbar}">NAVBAR</div>
+<div th:replace="~{fragments :: header('Добавить Читателя')}">HEADER</div>
+
 
 <form th:method="POST" th:action="@{/people}" th:object="${person}">
     <div>
@@ -29,9 +32,9 @@
         <input type="submit" value="Add Person">
     </div>
 </form>
-<br>
-<hr>
-<input type="button" value="Все читатели" onclick="location.href='/people';"/>
 
+
+
+<div th:replace="~{fragments :: footer}">FOOTER</div>
 </body>
 </html>

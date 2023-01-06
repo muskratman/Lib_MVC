@@ -24,6 +24,6 @@ public class MainController {
                            @RequestParam(value = "search_query", required = false) String query) {
         model.addAttribute("query", query);
         model.addAttribute("books", booksService.findByTitleStartingWith(query));
-        return "index";
+        return "main";
     }
 }

@@ -1,4 +1,4 @@
-package com.cookiebros.libmvc.util;
+package com.cookiebros.libmvc.enums;
 
 public enum Roles {
     GUEST,

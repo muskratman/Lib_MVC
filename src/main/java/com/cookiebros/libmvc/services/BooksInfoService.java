@@ -1,21 +1,21 @@
 package com.cookiebros.libmvc.services;
 
 import com.cookiebros.libmvc.models.BookInfo;
-import com.cookiebros.libmvc.util.Genres;
+import com.cookiebros.libmvc.models.Genre;
 
 import java.util.List;
 
 public interface BooksInfoService {
 
-    void update(int id, BookInfo updatedBookInfo);
+    void update(int bookId, BookInfo updatedBookInfo);
 
-    BookInfo findById(int id);
+    BookInfo findByBookId(int bookId);
 
-    List<BookInfo> findByGenres(Genres genre);
+    List<BookInfo> findByGenre(String genre);
 
     List<BookInfo> findByPublisherStartingWith(String publisher);
 
-    void addGenre(int id, Genres genre);
+    void addGenre(int bookId, Genre genre);
 
-    void removeGenre(int id, Genres genre);
+    void removeGenre(int bookId, Genre genre);
 }
